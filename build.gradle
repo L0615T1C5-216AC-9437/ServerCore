@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+}
+
+repositories{
+    mavenCentral()
+    maven{ url 'https://www.jitpack.io' }
+    maven{
+        name 'm2-dv8tion'
+        url 'https://m2.dv8tion.net/releases'
+    }
+}
+
+ext{
+    //the build number that this plugin is made for
+    mindustryVersion = '126.2'
+}
+
+dependencies {
+    compileOnly "com.github.Anuken.Arc:arc-core:$mindustryVersion"
+    compileOnly "com.github.Anuken.Mindustry:core:$mindustryVersion"
+    compileOnly "com.github.Anuken.Mindustry:server:$mindustryVersion"
+    compileOnly "com.github.Anuken.Mindustry:annotations:$mindustryVersion"
+    implementation 'mysql:mysql-connector-java:8.0.25' //replace this with the corresponding JDBC and version for your SQL DB.
+    implementation ('net.dv8tion:JDA:5.0.0-alpha.9') { //Discord bot library
+        exclude module: 'opus-java'
+    }
+}
+
+jar{
+    from{
+        exclude("META-INF/MSFTSIG.RSA")
+        configurations.runtimeClasspath.collect{it.isDirectory() ? it : zipTree(it)}
+    }
+
+    from(rootDir){
+        include "plugin.json"
+    }
+}
+
+tasks.named("jar") {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
