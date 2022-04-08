@@ -11,6 +11,8 @@ import java.util.Arrays;
 public class Sql {
     private static final String driverString = "com.mysql.cj.jdbc.Driver";
     private static String url;
+    //e.g. jdbc:mysql://localhost:3306/mindustry?user=usernameHere&password=passwordHere&allowMultiQueries=true
+    //allowMultiQueries=true is required to have multiple queries per connection, aka a query like "SELECT 1;\nSELECT 2;\nSELECT 3;"
 
     public static void RegisterEvents() {
         Events.on(EventType.ServerLoadEvent.class, event -> {

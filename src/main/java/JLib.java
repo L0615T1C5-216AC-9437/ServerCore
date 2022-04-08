@@ -8,13 +8,17 @@ public class JLib {
 
     public static byte[] longToBytes(long x) {
         buffer.putLong(0, x);
-        return buffer.array();
+        final byte[] out = buffer.array();
+        buffer.clear();
+        return out;
     }
 
     public static long bytesToLong(byte[] bytes) {
         buffer.put(bytes, 0, bytes.length);
-        buffer.flip();//need flip
-        return buffer.getLong();
+        buffer.flip(); //need flip
+        long out = buffer.getLong();
+        buffer.clear();
+        return out;
     }
 
     public static String longToB64(long l) {

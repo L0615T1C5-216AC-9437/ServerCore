@@ -30,7 +30,7 @@ public class DiscordBot extends ListenerAdapter {
             JLib.TimedLogging tl = new JLib.TimedLogging();
             try {
                 api = JDABuilder.createDefault(apiKey)
-                        .addEventListeners(new DiscordBot())//Listen for events such as message sent
+                        .addEventListeners(this)//Listen for events such as message sent
                         .build();
                 tl.log("Loaded Discord API!");
                 prefix = PluginConfig.DiscordPrefix.string();
@@ -54,16 +54,23 @@ public class DiscordBot extends ListenerAdapter {
     @Override
     public void onReady(@Nonnull ReadyEvent event) {
         Log.info("Discord bot is online.");
-        long guildID = PluginConfig.ConsoleChannel.longNum();
+        long guildID = PluginConfig.DiscordGuild.longNum();
         if (guildID == 0L) {
             Log.err("Guild ID not setup. Unable to load channels.");
         } else {
             guild = api.getGuildById(guildID);
+            if (guild == null) {
+                Log.err("No guild found/available with the guild id " + guildID);
+                return;
+            }
             long consoleID = PluginConfig.ConsoleChannel.longNum();
             if (consoleID == 0L) {
                 Log.err("Console channel ID not setup.");
             } else {
                 console = guild.getTextChannelById(consoleID);
+                if (console == null) {
+                    Log.err("No Text Channel with the ID " + consoleID + " found in " + guild.getName());
+                }
                 console.sendMessage("Discord bot loaded for server `" + Administration.Config.name.string() + "` port:" + Administration.Config.port.num()).queue();
             }
         }
