@@ -1,10 +1,14 @@
+package ServerCore.Examples;
+
+import ServerCore.JLib;
+import ServerCore.Sql;
 import arc.Events;
 import mindustry.game.EventType;
 import mindustry.gen.Call;
 import mindustry.gen.Player;
 import mindustry.net.Packets;
 
-public class ExampleModule {
+public class SqlBanList {
     public static void RegisterEvents() {
         Events.on(EventType.PlayerJoin.class, event -> {
             Player p = event.player;

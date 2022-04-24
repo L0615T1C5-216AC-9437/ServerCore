@@ -1,3 +1,5 @@
+package ServerCore;
+
 import arc.Core;
 
 public enum PluginConfig {

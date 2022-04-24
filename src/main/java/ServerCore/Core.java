@@ -1,3 +1,5 @@
+package ServerCore;
+
 import arc.Events;
 import arc.util.CommandHandler;
 import arc.util.Log;
@@ -14,6 +16,7 @@ public class Core extends Plugin {
         });
 
         Sql.RegisterEvents();//has to be first in order for other modules to be able to use SQL during ServerLoadEvent
+        //ServerCore.Example.SqlBanList.RegisterEvents();
     }
 
     @Override

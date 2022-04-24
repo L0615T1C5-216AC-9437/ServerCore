@@ -1,3 +1,5 @@
+package ServerCore;
+
 import arc.util.CommandHandler;
 import arc.util.Log;
 import mindustry.net.Administration;
@@ -36,7 +38,7 @@ public class DiscordBot extends ListenerAdapter {
                 prefix = PluginConfig.DiscordPrefix.string();
                 tl.log("Bot prefix set to '" + prefix + "'");
                 commandHandler = new CommandHandler(prefix);
-                RegisterDiscordCommands(commandHandler);
+                registerDiscordCommands(commandHandler);
                 tl.log("Commands Loaded");
                 bot = this;
             } catch (LoginException e) {
@@ -71,12 +73,16 @@ public class DiscordBot extends ListenerAdapter {
                 if (console == null) {
                     Log.err("No Text Channel with the ID " + consoleID + " found in " + guild.getName());
                 }
-                console.sendMessage("Discord bot loaded for server `" + Administration.Config.name.string() + "` port:" + Administration.Config.port.num()).queue();
+                if (console == null) {
+                    Log.err("Invalid channel ID for console!");
+                } else {
+                    console.sendMessage("Discord bot loaded for server `" + Administration.Config.name.string() + "` port:" + Administration.Config.port.num()).queue();
+                }
             }
         }
     }
 
-    public static void loadBot() {
+    public static void loadBot() {//call this again to restart bot
         if (bot != null) {
             bot.shutdown();
             bot = null;
@@ -84,7 +90,7 @@ public class DiscordBot extends ListenerAdapter {
         new DiscordBot();
     }
 
-    public static void RegisterDiscordCommands(CommandHandler handler) {
+    public static void registerDiscordCommands(CommandHandler handler) {
         //insert commands here
     }
 
@@ -97,10 +103,13 @@ public class DiscordBot extends ListenerAdapter {
     }
 
     public static void logCatch(Exception e) {
-
+        e.printStackTrace();
+        //implement how you want to report errors here
     }
 
     public static void logCatch(Exception e, PreparedStatement statement, Throwable t) {
-
+        e.printStackTrace();
+        System.out.println("Bad SQL Statement: " + statement);
+        //implement how you want to report errors here
     }
 }

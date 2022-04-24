@@ -1,3 +1,5 @@
+package ServerCore;
+
 import arc.Events;
 import arc.util.Log;
 import mindustry.game.EventType;
@@ -290,7 +292,7 @@ public class Sql {
 
     @Nullable
     @CheckReturnValue
-    public static Object get_SS_AI(String aiColumn, String query, Object... vars) {
+    public static Object get_SS_AI(String aiColumn, String query, Object... vars) { //get single row and a single column, auto increment column
         SqlCon sc = new SqlCon();
         try {
             sc.getConnection();
@@ -323,7 +325,7 @@ public class Sql {
 
     @Nullable
     @CheckReturnValue
-    public static Object get_SS(DataType dt, String query) {
+    public static Object get_SS(DataType dt, String query) { //get a single row and a single column
         SqlCon sc = new SqlCon(query);
         if (sc.valid()) {
             try {
@@ -346,7 +348,7 @@ public class Sql {
 
     @Nullable
     @CheckReturnValue
-    public static Object get_SS(DataType dt, String query, Object var) {
+    public static Object get_SS(DataType dt, String query, Object var) { //get a single row and a single column
         SqlCon sc = new SqlCon(query);
         if (sc.valid()) {
             try {
@@ -370,7 +372,7 @@ public class Sql {
 
     @Nullable
     @CheckReturnValue
-    public static Object get_SS(DataType dt, String query, Object... vars) {
+    public static Object get_SS(DataType dt, String query, Object... vars) { //get a single row and a single column
         SqlCon sc = new SqlCon(query);
         if (sc.valid()) {
             try {
@@ -394,7 +396,7 @@ public class Sql {
 
     @Nullable
     @CheckReturnValue
-    public static Object[] get_SM(DataType[] dt, String query) {
+    public static Object[] get_SM(DataType[] dt, String query) { //get a single row and multiple columns
         SqlCon sc = new SqlCon(query);
         if (sc.valid()) {
             try {
@@ -414,7 +416,7 @@ public class Sql {
 
     @Nullable
     @CheckReturnValue
-    public static Object[] get_SM(DataType[] dt, String query, Object var) {
+    public static Object[] get_SM(DataType[] dt, String query, Object var) { //get a single row and multiple columns
         SqlCon sc = new SqlCon(query);
         if (sc.valid()) {
             try {
@@ -435,7 +437,7 @@ public class Sql {
 
     @Nullable
     @CheckReturnValue
-    public static Object[] get_SM(DataType[] dt, String query, Object... vars) {
+    public static Object[] get_SM(DataType[] dt, String query, Object... vars) { //get a single row and multiple columns
         SqlCon sc = new SqlCon(query);
         if (sc.valid()) {
             try {
@@ -456,7 +458,7 @@ public class Sql {
 
     @Nullable
     @CheckReturnValue
-    public static Object[] get_MS(DataType dt, String query) {
+    public static Object[] get_MS(DataType dt, String query) { //get multiple rows and a single column
         SqlCon sc = new SqlCon(query);
         if (sc.valid()) {
             try {
@@ -483,7 +485,7 @@ public class Sql {
 
     @Nullable
     @CheckReturnValue
-    public static Object[] get_MS(DataType dt, String query, Object var) {
+    public static Object[] get_MS(DataType dt, String query, Object var) { //get multiple rows and a single column
         SqlCon sc = new SqlCon(query);
         if (sc.valid()) {
             try {
@@ -511,7 +513,7 @@ public class Sql {
 
     @Nullable
     @CheckReturnValue
-    public static Object[] get_MS(DataType dt, String query, Object... vars) {
+    public static Object[] get_MS(DataType dt, String query, Object... vars) { //get multiple rows and a single column
         SqlCon sc = new SqlCon(query);
         if (sc.valid()) {
             try {
@@ -539,7 +541,7 @@ public class Sql {
 
     @Nullable
     @CheckReturnValue
-    public static Object[][] get_MM(DataType[] dt, String query) {
+    public static Object[][] get_MM(DataType[] dt, String query) { //get multiple rows and multiple columns
         SqlCon sc = new SqlCon(query);
         if (sc.valid()) {
             try {
@@ -562,7 +564,7 @@ public class Sql {
 
     @Nullable
     @CheckReturnValue
-    public static Object[][] get_MM(DataType[] dt, String query, Object var) {
+    public static Object[][] get_MM(DataType[] dt, String query, Object var) { //get multiple rows and multiple columns
         SqlCon sc = new SqlCon(query);
         if (sc.valid()) {
             try {
@@ -586,11 +588,11 @@ public class Sql {
 
     @Nullable
     @CheckReturnValue
-    public static Object[][] get_MM(DataType[] dt, String query, Object... vars) {
+    public static Object[][] get_MM(DataType[] dt, String query, Object... vars) { //get multiple rows and multiple columns
         SqlCon sc = new SqlCon(query);
         if (sc.valid()) {
             try {
-                sc.setObject(vars);
+                sc.setObjects(vars);
                 sc.getResultSet();
                 if (sc.rs == null) {
                     return null;
@@ -608,7 +610,7 @@ public class Sql {
         return null;
     }
 
-    public static int run(String query, Object var) {
+    public static int run(String query, Object var) { //execute sql queries, such as insert, update, etc.
         SqlCon sc = new SqlCon(query);
         if (sc.valid()) {
             try {
@@ -623,7 +625,7 @@ public class Sql {
         return -1;
     }
 
-    public static int run(String query, Object... vars) {
+    public static int run(String query, Object... vars) { //execute sql queries, such as insert, update, etc.
         SqlCon sc = new SqlCon(query);
         if (sc.valid()) {
             try {
@@ -638,7 +640,7 @@ public class Sql {
         return -1;
     }
 
-    public static int[] runMultiple(ArrayList<executeQueueData> queue) {
+    public static int[] runMultiple(ArrayList<executeQueueData> queue) { //execute multiple independent sql queries, such as insert, update, etc., in a row using the same connection
         SqlCon sc = new SqlCon();
         try {
             sc.getConnection();
@@ -667,7 +669,7 @@ public class Sql {
         return out;
     }
 
-    public static int[] runBulk(String query, ArrayList<bulkData> queue) {
+    public static int[] runBulk(String query, ArrayList<bulkData> queue) { //execute bulk sql commands, such as updating many keys using the same query
         SqlCon sc = new SqlCon(query);
         if (sc.valid()) {
             for (bulkData ebd : queue) {
